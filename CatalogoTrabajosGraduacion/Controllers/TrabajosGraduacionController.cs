@@ -29,6 +29,7 @@ namespace CatalogoTrabajosGraduacion.Controllers
                                           join car in _context.Carrera on t.Carrera equals car.IdCarrera
                                           join fac in _context.Facultad on car.Facultad equals fac.IdFacultad
                                           select new {
+                                              t.IdTrabajo,
                                               t.Titulo,
                                               t.Autor,
                                               t.Anio,
