@@ -54,6 +54,37 @@ namespace CatalogoTrabajosGraduacion.Controllers
             return await queryStats.ToListAsync();
         }
 
+        [Route("statsByCareer")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Object>>> GetStatsByCareer()
+        {
+            var queryStats = from t in _context.TrabajosGraduacion
+                             join car in _context.Carrera on t.Carrera equals car.IdCarrera
+                             group car by car.Nombre into gr
+                             select new
+                             {
+                                 Tipo = gr.Key,
+                                 Cantidad = gr.Count()
+                             };
+
+            return await queryStats.ToListAsync();
+        }
+
+        [Route("statsByYear")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Object>>> GetStatsByYear()
+        {
+            var queryStats = from t in _context.TrabajosGraduacion
+                             group t by t.Anio into gr
+                             select new
+                             {
+                                 Tipo = gr.Key,
+                                 Cantidad = gr.Count()
+                             };
+
+            return await queryStats.ToListAsync();
+        }
+
         // GET: api/Stats/statsByEngineering
         [Route("statsByEngineering")]
         [HttpGet]
